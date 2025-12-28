@@ -1,17 +1,21 @@
 import {loadCatalogFromStorage, saveCatalogToStorage} from "./catalogStorage.js";
 import {setCatalog} from "./catalogSlice.js";
 import {initBooks} from "./catalogSeed.js";
+import {hydrateCatalog} from "./hydrateCatalog.js";
 
 export function loadCatalog(){
     return (dispatch) => {
         const storedData = loadCatalogFromStorage();
-        if(Array.isArray(storedData) && storedData.length > 0) {
-            console.log("From Storage", storedData)
-            dispatch(setCatalog(storedData));
+        const hydratedBooksFromStoredData = hydrateCatalog(storedData);
+        if(hydratedBooksFromStoredData.books.length > 0) {
+            console.log("From Storage", hydratedBooksFromStoredData);
+            saveCatalogToStorage(hydratedBooksFromStoredData.books);
+            dispatch(setCatalog(hydratedBooksFromStoredData.books));
             return;
         }
-        saveCatalogToStorage(initBooks);
-        dispatch(setCatalog(initBooks));
-        console.log("From JSON", initBooks);
+        const hydratedBooksFromSeed = hydrateCatalog (initBooks);
+        saveCatalogToStorage(hydratedBooksFromSeed.books);
+        dispatch(setCatalog(hydratedBooksFromSeed.books));
+        console.log("From JSON", hydratedBooksFromSeed.books);
     }
 }

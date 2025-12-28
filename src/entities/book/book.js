@@ -4,6 +4,7 @@
  * @property {string}author
  * @property {string}isbn
  * @property {number}price
+ * @property {boolean} flagOutOfStock
  */
 
 /**
@@ -16,5 +17,6 @@ export function createBook(book) {
         author: String(book.author ?? "").trim(),
         isbn: String(book.isbn ?? "").trim(),
         price: Number(book.price),
+        flagOutOfStock: true
     };
 }

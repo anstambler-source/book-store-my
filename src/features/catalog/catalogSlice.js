@@ -10,7 +10,10 @@ const catalogSlice = createSlice({
     reducers: {
         setCatalog: (state, action) => {
             state.items = action.payload;
-        }
+        },
+        // TODO addBook: (state, action) => {
+        //
+        // }
     }
 });
 export const { setCatalog } = catalogSlice.actions;

@@ -5,7 +5,7 @@ function isNonEmptyString(value){
 }
 
 function isValidIsbn(isbn){
-    return typeof isbn === "string" && isbn.length >= 10 && isbn.length <= 12;
+    return typeof isbn === "string" && isbn.length >= 10 && isbn.length <= 13;
 }
 
 function isValidPrice(price){
