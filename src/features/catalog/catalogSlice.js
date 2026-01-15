@@ -1,7 +1,9 @@
 import {createSlice} from "@reduxjs/toolkit";
 
 const initialState = {
-    items:[]
+    items:[],
+    info: null,
+    error: null,
 }
 
 const catalogSlice = createSlice({
@@ -10,20 +12,23 @@ const catalogSlice = createSlice({
     reducers: {
         setCatalog: (state, action) => {
             state.items = action.payload;
+            state.info = "Catalog loaded successfully";
+            state.error = null;
         },
 
-        // TODO addBook: (state, action) => {
-        //
-        // }
+        setError: (state, action) => {
+            state.error = action.payload;
+            state.info = null;
+        },
+
+        addBook: (state, action) => {
+            state.items.push(action.payload);
+            state.error = null;
+            state.info = "Book added successfully";
+        }
+        // TODO toggleFlag out of stock
+        // TODO change price by isbn
     }
 });
-export const { setCatalog } = catalogSlice.actions;
+export const { setCatalog, setError, addBook } = catalogSlice.actions;
 export const catalogReducer = catalogSlice.reducer;
-
-// export const LOAD_CATALOG = "LOAD_CATALOG";
-// export function loadcatalog(rawcatalog) {
-//     return {
-//         type: LOAD_CATALOG,
-//         payload: rawcatalog,
-//     }
-// }
