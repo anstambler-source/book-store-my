@@ -1,6 +1,7 @@
 import {createBook} from "../../../entities/book/book.js";
 import {isValidBook} from "../../../entities/book/book.validators.js";
 import {addBook, setError} from "../catalogSlice.js";
+import {saveCatalogToStorage} from "../catalogStorage.js";
 
 
 export function addBookToCatalog(rawBook) {
@@ -17,7 +18,7 @@ export function addBookToCatalog(rawBook) {
             dispatch(setError("ISBN already exists in catalog"));
             return;
         }
-
         dispatch(addBook(book));
+        saveCatalogToStorage(getState().catalog.items);
     }
 }
