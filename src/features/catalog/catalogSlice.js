@@ -25,10 +25,16 @@ const catalogSlice = createSlice({
             state.items.push(action.payload);
             state.error = null;
             state.info = "Book added successfully";
+        },
+
+        toggleOutOfStockByIsbn: (state, action) => {
+            const isbn = action.payload;
+            const book = state.items.find((book) => book.isbn === isbn);
+            if (!book) return;
+            book.flagOutOfStock = !book.flagOutOfStock;
         }
-        // TODO toggleFlag out of stock
         // TODO change price by isbn
     }
 });
-export const { setCatalog, setError, addBook } = catalogSlice.actions;
+export const {setCatalog, setError, addBook, toggleOutOfStockByIsbn} = catalogSlice.actions;
 export const catalogReducer = catalogSlice.reducer;
