@@ -13,7 +13,7 @@ function BookItem({book}) {
 
     if (isEditing) {
         return (
-            <BookItemEdit book={book} onCancel={() => setIsEditing(false)}/>
+            <BookItemEdit book={book} stopShowCompnent={() => setIsEditing(false)}/>
         )
     }
     return (

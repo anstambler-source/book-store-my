@@ -32,9 +32,27 @@ const catalogSlice = createSlice({
             const book = state.items.find((book) => book.isbn === isbn);
             if (!book) return;
             book.flagOutOfStock = !book.flagOutOfStock;
+        },
+
+        updateBookByIsbn: (state, action) => {
+            const {originalIsbn, next} = action.payload || {};
+            const index = state.items.findIndex((book) => book.isbn === originalIsbn);
+            if (index === -1) {
+                state.error = "Book with isbn not found";
+                state.info = null;
+                return;
+            }
+            const prev = state.items[index];
+            state.items[index] = {
+                ...prev,
+                ...next,
+                flagOutOfStock: typeof next?.flagOutOfStock === "boolean" ? next.flagOutOfStock : prev.flagOutOfStock,
+            }
+            state.error = null;
+            state.info = "Book updated successfully";
         }
-        // TODO change price by isbn
+
     }
 });
-export const {setCatalog, setError, addBook, toggleOutOfStockByIsbn} = catalogSlice.actions;
+export const {setCatalog, setError, addBook, toggleOutOfStockByIsbn, updateBookByIsbn} = catalogSlice.actions;
 export const catalogReducer = catalogSlice.reducer;

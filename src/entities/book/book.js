@@ -17,6 +17,6 @@ export function createBook(book) {
         author: String(book.author ?? "").trim(),
         isbn: String(book.isbn ?? "").trim(),
         price: Number(book.price),
-        flagOutOfStock: false
+        flagOutOfStock: book.flagOutOfStock ?? false
     };
 }
