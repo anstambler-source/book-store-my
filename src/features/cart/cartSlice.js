@@ -40,8 +40,27 @@ const cartSlice = createSlice({
             state.info = "Item added to cart";
             state.error = null;
 
+        },
+
+        removeItem: (state, action) => {
+            const isbn = action.payload;
+            state.info = null;
+            state.error = null;
+            if (!isbn) {
+                state.error = 'ISBN is required';
+                return;
+            }
+
+            const existingItem = state.cartItems.findIndex((item) => item.isbn === isbn);
+            if (existingItem === -1) {
+                state.error = 'A book with this ISBN was not found';
+                return;
+            }
+            state.cartItems.splice(existingItem, 1);
+            state.info = "Item removed from cart";
         }
     },
 });
-export const {addItem} = cartSlice.actions;
+
+export const {addItem, removeItem} = cartSlice.actions;
 export const cartReducer = cartSlice.reducer;
