@@ -40,8 +40,54 @@ const cartSlice = createSlice({
             state.info = "Item added to cart";
             state.error = null;
 
+        },
+        removeItem: (state, action) => {
+            const isbn = action.payload;
+            state.info = null;
+            state.error = null;
+            if (!isbn) {
+                state.error = "ISBN is required";
+                return;
+            }
+
+            const oldLength = state.cartItems.length;
+            state.cartItems = state.cartItems.filter((item) => item.isbn !== isbn);
+            if (oldLength === state.cartItems.length) {
+                state.error = "Item not found in cart";
+                return;
+            }
+            state.info = "Item removed from cart";
+        },
+        changeQuantity: (state, action) => {
+            const {isbn, newQuantity} = action.payload;
+            state.info = null;
+            state.error = null;
+            if (!isbn) {
+                state.error = "ISBN is required";
+                return;
+            }
+
+            if (typeof newQuantity !== "number" || !Number.isInteger(newQuantity) || newQuantity < 0) {
+                state.error = "Invalid quantity";
+                return;
+            }
+
+            const victim = state.cartItems.find(item => item.isbn === isbn);
+            if (!victim) {
+                state.error = "ISBN not found in cart";
+                return;
+            }
+
+            if (newQuantity === 0) {
+                state.cartItems = state.cartItems.filter((item) => item.isbn !== isbn);
+                state.info = "Item removed from cart because new quantity = 0";
+                return;
+            }
+
+            victim.quantity = newQuantity;
+            state.info = "quantity updated";
         }
     },
 });
-export const {addItem} = cartSlice.actions;
+export const {addItem, removeItem, changeQuantity} = cartSlice.actions;
 export const cartReducer = cartSlice.reducer;
