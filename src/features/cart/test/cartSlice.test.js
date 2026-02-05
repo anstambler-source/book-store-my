@@ -71,4 +71,17 @@ describe('cartSlice', () => {
         expect(state.error).toBeNull();
         expect(state.info).toBe("Item removed from cart because new quantity = 0");
     })
+
+    it("sets error when changing quantity for missing item", () => {
+        let state = cartReducer(undefined, {type: "@@INIT"});
+        state = cartReducer(state, addItem("978978978978"));
+        state = cartReducer(
+            state,
+            changeQuantity({isbn: "9780140449136", newQuantity: 3})
+        );
+
+        expect(state.cartItems).toEqual([{isbn: "978978978978", quantity: 1}]);
+        expect(state.info).toBe(null);
+        expect(state.error).toBe("ISBN not found in cart");
+    });
 })
