@@ -7,4 +7,4 @@ export const selectCartItems = (state) => selectCartState(state).cartItems;
 //Derived selectors
 export const selectCartUniqueISBN = (state) => selectCartItems(state).length;
 export const selectCartTotalBooks = (state) =>
-    selectCartItems(state).reduce((sum, cartItem) => sum + cartItem.quantity, 0);
+    selectCartItems(state).reduce((sum, {quantity}) => sum + quantity, 0);
